@@ -28,7 +28,7 @@ ARG MQ_PACKAGES="ibmmq-server ibmmq-java ibmmq-jre ibmmq-gskit ibmmq-web ibmmq-m
 
 RUN export DIR_EXTRACT=/tmp/mq && mkdir mkdir -p ${DIR_EXTRACT}
 
-COPY source /tmp/mq
+COPY CI3CNML.tar.gz /tmp/mq
 
 RUN export DEBIAN_FRONTEND=noninteractive \
   # Install additional packages required by MQ, this install process and the runtime scripts
