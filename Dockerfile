@@ -17,14 +17,18 @@ FROM ubuntu:16.04
 LABEL maintainer "Arthur Barr <arthur.barr@uk.ibm.com>, Rob Parker <PARROBE@uk.ibm.com>"
 
 LABEL "ProductID"="98102d16795c4263ad9ca075190a2d4d" \
-      "ProductName"="IBM MQ Advanced for Developers" \
-      "ProductVersion"="9.0.4"
+      "ProductName"="IBM MQ Series" \
+      "ProductVersion"="7.1"
 
 # The URL to download the MQ installer from in tar.gz format
-ARG MQ_URL=https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqadv/mqadv_dev904_ubuntu_x86-64.tar.gz
+# ARG MQ_URL=https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqadv/mqadv_dev904_ubuntu_x86-64.tar.gz
 
 # The MQ packages to install
 ARG MQ_PACKAGES="ibmmq-server ibmmq-java ibmmq-jre ibmmq-gskit ibmmq-web ibmmq-msg-.*"
+
+RUN export DIR_EXTRACT=/tmp/mq && mkdir mkdir -p ${DIR_EXTRACT}
+
+COPY source /tmp/mq
 
 RUN export DEBIAN_FRONTEND=noninteractive \
   # Install additional packages required by MQ, this install process and the runtime scripts
@@ -52,7 +56,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && export DIR_EXTRACT=/tmp/mq \
   && mkdir -p ${DIR_EXTRACT} \
   && cd ${DIR_EXTRACT} \
-  && curl -LO $MQ_URL \
+  # && curl -LO $MQ_URL \
   && tar -zxvf ./*.tar.gz \
   # Recommended: Remove packages only needed by this script
   && apt-get purge -y \
